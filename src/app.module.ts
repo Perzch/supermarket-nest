@@ -10,6 +10,7 @@ import { ValidationPipe } from './global/validation.pipe';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { SalesModule } from './sales/sales.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { SalesModule } from './sales/sales.module';
     AuthModule,
     CategoriesModule,
     ProductsModule,
-    SalesModule
+    SalesModule,
+    CommonModule
   ],
   controllers: [AppController],
   providers: [

@@ -16,8 +16,12 @@ export class CategoriesService {
     return await this.categoryRepository.save(category);
   }
 
-  async findAll() {
-    return await this.categoryRepository.find();
+  async findAll(sort?:string ,sortColumn?: string) {
+    return await this.categoryRepository.find({
+      order: {
+        [sortColumn]: sort
+      }
+    });
   }
 
   async findOne(id: number) {
@@ -26,6 +30,14 @@ export class CategoriesService {
         id
       }
     });
+  }
+
+  async findByName(name: string) {
+    return await this.categoryRepository.findOne({
+      where: {
+        name
+      }
+    })
   }
 
   async update(updateCategoryDto: UpdateCategoryDto) {

@@ -37,11 +37,6 @@ export class ProductsController {
     return await this.productsService.findByName(name)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
-  }
-
   @Put()
   update(@Body() updateProductDto: UpdateProductDto) {
     return this.productsService.update(updateProductDto);

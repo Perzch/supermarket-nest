@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -13,8 +13,11 @@ export class CategoriesController {
   }
 
   @Get()
-  async findAll() {
-    return await this.categoriesService.findAll();
+  async findAll(
+    @Query('sort') sort: 'asc' | 'desc',
+    @Query('sortColumn') sortColumn: string
+  ) {
+    return await this.categoriesService.findAll(sort,sortColumn);
   }
 
   @Get('names')

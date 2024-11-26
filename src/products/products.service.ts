@@ -57,7 +57,7 @@ export class ProductsService {
       skip: page * limit,
       take: limit,
       order: {
-        [query.sortColumn || 'id']: query.sort
+        [query.sortColumn || 'id']: query.sort || 'ASC'
       }
     }
     

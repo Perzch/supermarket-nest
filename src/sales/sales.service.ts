@@ -4,7 +4,7 @@ import { UpdateSaleDto } from './dto/update-sale.dto';
 import { QuerySaleDto } from './dto/query-sale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
-import { Between, FindManyOptions, FindOperator, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, FindManyOptions, FindOperator, FindOptionsWhere, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Sale } from './entities/sale.entity';
 import { SaleProduct } from './entities/saleProduct.entity';
 
@@ -39,7 +39,7 @@ export class SalesService {
     } else if(query.endCreateDate) {
       createDate = LessThanOrEqual(new Date(query.endCreateDate))
     }
-    const where = {
+    const where:FindOptionsWhere<Sale> = {
       createDate,
       saleProducts: {
         product: {
@@ -51,13 +51,13 @@ export class SalesService {
         skip: page * limit,
         take: limit,
         order: {
-          [query.sortColumn as string || 'id']: query.sort
+          [query.sortColumn as string || 'id']: query.sort || 'ASC'
         },
         relations: ['saleProducts', 'saleProducts.product','saleProducts.product.category'],
         where
     }
     const data = await this.saleRepository.find(searchOptions)
-    const total = await this.saleRepository.count({ where })
+    const total = await this.saleRepository.countBy(where)
     return { data,total }
   }
 }
