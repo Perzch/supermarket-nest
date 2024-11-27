@@ -19,7 +19,7 @@ export class CategoriesService {
   async findAll(sort?:string ,sortColumn?: string) {
     return await this.categoryRepository.find({
       order: {
-        [sortColumn]: sort
+        [sortColumn || 'id']: sort || 'asc'
       }
     });
   }

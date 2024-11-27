@@ -1,7 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 
 export class CreateCategoryDto {
-    @IsNotEmpty()
+    @IsNotEmpty({message: '分类名称不能为空'})
     name: string;
     recommend: string
 }

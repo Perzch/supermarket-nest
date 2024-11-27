@@ -3,13 +3,14 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { QueryProductDto } from './dto/query-product.dto';
+import { Product } from './entities/product.entity';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto) {
+  async create(@Body(new ValidationPipe()) createProductDto: Product) {
     return await this.productsService.create(createProductDto);
   }
 
@@ -35,6 +36,11 @@ export class ProductsController {
   @Get('name/:name')
   async findByName(@Param('name') name: string) {
     return await this.productsService.findByName(name)
+  }
+
+  @Get('/:id')
+  async findOne(@Param('id') id: string) {
+    return await this.productsService.findOne(+id);
   }
 
   @Put()

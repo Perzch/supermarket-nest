@@ -31,7 +31,8 @@ export class CommonController {
             { header: '商品分类', key: 'category', width: 19 },
             { header: '商品进价', key: 'price', width: 9 },
             { header: '商品售价', key: 'nowPrice', width: 9 },
-            { header: '商品销量', key: 'count', width: 9 }
+            { header: '商品销量', key: 'count', width: 9 },
+            { header: '净利润', key: 'total', width: 10 }
         ]
         let beforeAddRowCount = 2
         data.forEach((item, index) => {
@@ -42,7 +43,8 @@ export class CommonController {
                 category: s.product.category.name,
                 price: s.product.price,
                 nowPrice: s.product.nowPrice,
-                count: s.saleCount
+                count: s.saleCount,
+                total: s.saleCount * (s.product.nowPrice - s.product.price)
             })))
             if (beforeAddRowCount > worksheet.rowCount) {
                 return
@@ -55,7 +57,7 @@ export class CommonController {
         res.setHeader('Content-Disposition','attachment; filename=sale.xlsx')
         res.send(await workbook.xlsx.writeBuffer())
     }
-    @Get('products/template')
+    @Get('products/download/template')
     async downloadProductTemplate(@Res() res) {
         return await res.download('src/common/template/product_template.xlsx')
     }
@@ -94,13 +96,13 @@ export class CommonController {
                 } catch (e) {
                     error.push({ rowNumber, error: e.message})
                 } finally {
-                    if(rowNumber === sheet.rowCount) 
+                    if(rowNumber === sheet.rowCount - 1) 
                         res(true)
                 }
             })
         })
         return {
-            successCount: sheet.rowCount - 1 - error.length,
+            successCount: sheet.rowCount - 2 - error.length,
             errorCount: error.length,
             error
         }
