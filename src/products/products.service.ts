@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Between, FindManyOptions, FindOperator, LessThan, LessThanOrEqual, Like, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, FindManyOptions, FindOperator, LessThan, LessThanOrEqual, Like, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { QueryProductDto } from './dto/query-product.dto';
 
 /**
@@ -73,6 +73,9 @@ export class ProductsService {
    */
   async findAllColumn(column:keyof Product) {
     const result = await this.productRepository.find({
+      where: {
+        stock: MoreThan(0)
+      },
       select: [column]
     })
     return result.map(item => item[column])

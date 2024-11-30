@@ -4,13 +4,13 @@ const config:TypeOrmModuleOptions = {
     type: 'oracle',
     host: 'localhost',
     port: 1521,
-    username: 'supermarket',
+    username: 'C##SUPERMARKET',
     password: '123456',
-    sid: 'XE',
+    sid: 'ORCL',
     // entities: [User,Category,Product],
     autoLoadEntities: true,
     synchronize: true,
     logging: true,
 }
-
+ 
 export default config;

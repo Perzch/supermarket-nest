@@ -27,6 +27,11 @@ export class SalesService {
       sale.saleProducts.push(saleProduct)
     }
     const result = await this.saleRepository.save(sale)
+    for await (const item of result.saleProducts) {
+      await this.productRepository.update(item.product.id, {
+        stock: item.product.stock - item.saleCount
+      })
+    }
     return result;
   }
 

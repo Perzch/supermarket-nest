@@ -32,7 +32,7 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new Error('Invalid credentials');
+            throw new Error('用户名或密码错误');
         }
 
         const payload = {
